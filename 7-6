@@ -1,0 +1,72 @@
+# -*- coding:utf-8 -*-
+import urllib
+import urllib2
+import sys 
+import json
+from bs4 import BeautifulSoup
+import re
+
+'''
+url='https://www.baidu.com/s?wd=13264027309'
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'# 将user_agent写入头信息
+values = {'name' : 'Michael Foord',
+          'location' : 'Northampton',
+          'language' : 'Python' }
+headers = { 'User-Agent' : user_agent }
+data = urllib.urlencode(values)
+req = urllib2.Request(url, data, headers)
+response = urllib2.urlopen(req)
+the_page = response.read()
+print the_page
+'''
+
+#爬http://www.ip138.com/
+import csv
+import re
+from urllib import urlopen
+html = urlopen("http://www.ip138.com:8080/search.asp?mobile=18187470000&action=mobile")
+bs = BeautifulSoup(html.read())
+name = bs.findAll("td",{"class":"tdc2"})
+print name[1]
+
+
+#爬http://www.ip138.com/循环部分
+
+import csv
+
+#读取csv文件
+csvfile = file('paqu.csv', 'rb')
+reader = csv.reader(csvfile)
+a_list=[]
+for line in reader:
+    a_list.append(line[0])
+    print line
+print reader
+
+
+#提取7位号码
+
+
+'''
+import re
+from urllib import urlopen
+html = urlopen("http://www.ip138.com:8080/search.asp?mobile=18187470000&action=mobile")
+bs = BeautifulSoup(html.read())
+name = bs.findAll("td",{"class":"tdc2"})
+print name[1]
+
+'''
+
+#读文件 a_list 
+
+output=[]
+for i in a_list:
+    url='http://www.ip138.com:8080/search.asp?mobile='+i+'&action=mobile'
+    response=urllib2.urlopen(url)
+    the_page = response.read()
+    pattern =re.compile(r'<TD\sclass="tdc2" align="center">.*&nbsp;.*</TD>')
+    result = pattern.findall(the_page)
+    print result
+    output.append(result)
+
+print output
